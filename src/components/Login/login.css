@@ -1,6 +1,7 @@
 .login {
   background-color: #fff;
-  width: 40vw;
+  width: 25vw;
+  min-width: 350px;
   height: max-content;
   display: flex;
   justify-content: center;
