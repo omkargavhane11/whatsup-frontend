@@ -1,0 +1,27 @@
+.msg {
+  max-width: 70%;
+  width: fit-content;
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.msg-my {
+  max-width: 70%;
+  width: fit-content;
+  border-radius: 10px;
+  background-color: rgb(213, 254, 213);
+  font-size: 14px;
+  padding: 10px;
+  box-sizing: border-box;
+  align-self: end;
+}
+
+.msg-time {
+  text-align: right;
+  color: rgb(147, 146, 146);
+  z-index: 10;
+  font-size: 12px;
+}

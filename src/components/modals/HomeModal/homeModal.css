@@ -1,0 +1,6 @@
+.home-modal {
+  height: 100px;
+  width: 100px;
+  background-color: yellow;
+  z-index: 20;
+}

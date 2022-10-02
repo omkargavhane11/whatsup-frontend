@@ -1,0 +1,163 @@
+.cl {
+  height: 100%;
+  width: 100%;
+  color: white;
+  position: absolute;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.cl-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cl-top {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: 10vh;
+  background-color: teal;
+  box-sizing: border-box;
+  padding: 0px 15px;
+}
+
+.cl-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 80vh;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.cl-search-label,
+.cl-input-wrapper {
+  color: black;
+}
+
+/* .cl-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+} */
+
+.cl-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cl-search-input {
+  width: 90%;
+  height: 40px;
+  font-size: 16px;
+  border-radius: 5px;
+  padding: 0px 15px;
+  box-sizing: border-box;
+  border: 1px solid gray;
+}
+
+.cl-search-button {
+  border: none;
+  background-color: teal;
+  padding: 5px;
+  border-radius: 5px;
+  height: 40px;
+  color: white;
+  width: 90%;
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+
+@media screen and (max-width: 420px) {
+  .cl {
+    height: 100%;
+    width: 100%;
+    color: white;
+    position: absolute;
+    z-index: 100;
+    box-sizing: border-box;
+  }
+
+  .cl-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cl-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 10vh;
+    background-color: teal;
+    box-sizing: border-box;
+    padding: 0px 15px;
+  }
+
+  .cl-middle {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 80vh;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  .cl-search-label,
+  .cl-input-wrapper {
+    color: black;
+  }
+
+  /* .cl-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  } */
+
+  .cl-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .cl-search-input {
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 0px 15px;
+    box-sizing: border-box;
+    border: 1px solid gray;
+  }
+
+  .cl-search-button {
+    border: none;
+    background-color: teal;
+    padding: 5px;
+    border-radius: 5px;
+    height: 40px;
+    color: white;
+    width: 100%;
+  }
+}

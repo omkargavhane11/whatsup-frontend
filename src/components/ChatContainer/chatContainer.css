@@ -1,0 +1,224 @@
+.cc {
+  height: 100%;
+}
+
+.cc-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: rgb(247, 247, 247);
+  height: 50px;
+  padding: 10px;
+  border-bottom: 1px solid lightgray;
+}
+
+/* .cc-back-icon{
+
+} */
+
+.cc-avatar {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 0.5px solid lightgray;
+}
+
+.cc-top-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.cc-contact-last-seen {
+  font-size: 13px;
+}
+
+.cc-conversation-box {
+  min-height: 80%;
+  /* background-image: url("https://i.pinimg.com/736x/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg"); */
+  background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+  max-height: 80%;
+  overflow-y: scroll;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+
+.cc-conversation-box-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cc-bottom {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 10%;
+  box-sizing: border-box;
+  padding: 0px 10px;
+}
+
+.cc-bottom-emojis {
+  height: 35px;
+  width: 35px;
+}
+
+.cc-bottom-file-attachment-container {
+  display: flex;
+  align-items: center;
+}
+
+.cc-file-attachment-icon {
+  height: 25px;
+  width: 25px;
+}
+
+.cc-bottom-file-attachment {
+  visibility: hidden;
+  width: 0px;
+}
+
+.cc-message-box {
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  box-sizing: border-box;
+  font-size: 15px;
+  height: 60%;
+}
+
+.cc-bottom-send-message-button {
+  height: 30px;
+  width: 30px;
+  border: none;
+  background-color: transparent;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.cc-emp {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+
+@media screen and (max-width: 420px) {
+  .cc {
+    height: 100%;
+  }
+
+  .cc-top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: rgb(247, 247, 247);
+    height: 35px;
+    padding: 10px;
+    border-bottom: 1px solid lightgray;
+  }
+
+  .cc-avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 0.5px solid lightgray;
+  }
+
+  .cc-top-right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cc-contact-last-seen {
+    font-size: 13px;
+  }
+
+  .cc-conversation-box {
+    min-height: 80%;
+    /* background-image: url("https://i.pinimg.com/736x/8c/98/99/8c98994518b575bfd8c949e91d20548b.jpg"); */
+    background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+    max-height: 80%;
+    overflow-y: scroll;
+    padding: 10px 20px;
+    box-sizing: border-box;
+  }
+
+  .cc-conversation-box-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cc-bottom {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 10%;
+    box-sizing: border-box;
+    padding: 0px 10px;
+  }
+
+  .cc-bottom-emojis {
+    height: 35px;
+    width: 35px;
+  }
+
+  .cc-bottom-file-attachment-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .cc-file-attachment-icon {
+    height: 25px;
+    width: 25px;
+  }
+
+  .cc-bottom-file-attachment {
+    visibility: hidden;
+    width: 0px;
+  }
+
+  .cc-message-box {
+    width: 100%;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    box-sizing: border-box;
+    font-size: 15px;
+    height: 60%;
+  }
+
+  .cc-bottom-send-message-button {
+    height: 30px;
+    width: 30px;
+    border: none;
+    background-color: transparent;
+    font-size: 25px;
+    cursor: pointer;
+  }
+
+  .cc-emp {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
