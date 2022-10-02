@@ -141,4 +141,24 @@ input[type="number"]::-webkit-outer-spin-button {
     text-decoration: underline;
     color: rgb(3, 95, 58);
   }
+  .login-registration-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* height: 90vh;
+    width: 95vw; */
+    background-color: #fff;
+    color: rgb(14, 130, 35);
+  }
+  .login-registration-success > button {
+    height: 35px;
+    font-size: 18px;
+    width: 100px;
+    border-radius: 3px;
+    text-align: center;
+    border: 1px solid rgb(3, 95, 58);
+    background-color: rgb(3, 95, 58);
+    color: #fff;
+    margin: 15px 0px;
+  }
 }
