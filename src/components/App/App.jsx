@@ -69,7 +69,7 @@ export const App = () => {
   //✅ socket
 
   // const [socket, setSocket] = useState(null);
-  const socket = useRef(io("ws://localhost:8900"));
+  const socket = useRef(io("https://whatsup-socket.herokuapp.com"));
   const [socketMessage, setSocketMessage] = useState(null);
 
   useEffect(() => {
@@ -81,7 +81,7 @@ export const App = () => {
   }, [currentUser._id]);
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8900");
+    socket.current = io("https://whatsup-socket.herokuapp.com");
 
     socket.current.on("getMessage", (data) => {
       setSocketMessage({
