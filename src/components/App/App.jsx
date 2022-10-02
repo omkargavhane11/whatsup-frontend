@@ -119,7 +119,7 @@ export const App = () => {
                 alt="user-image"
                 className="app-avatar"
               /> */}
-              Whatsup
+              Whatssup
             </div>
             <div className="app-topbar-right">
               <PersonAddIcon
