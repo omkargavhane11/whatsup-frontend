@@ -56,7 +56,6 @@ const ChatContainer = ({
       ...messages,
       { ...payload, _id: Math.random().toString(), createdAt: Date.now() },
     ]);
-    setCurrentChat({ ...currentChat, lastMessage: inputMessage });
 
     if (inputMessage.length !== 0) {
       try {
@@ -77,7 +76,7 @@ const ChatContainer = ({
 
   const scrollRef = useRef();
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "auto" });
+    scrollRef.current?.scrollIntoView();
   }, [messages]);
 
   //✅ socket
@@ -182,6 +181,13 @@ const ChatContainer = ({
               className="cc-message-box"
               onChange={(e) => setInputMessage(e.target.value)}
               value={inputMessage}
+              id="send-message"
+              onKeyUp={(e) => {
+                if (e.target.code === 13) {
+                  // sendMessage();
+                  console.log("enter pressed");
+                }
+              }}
             />
             <div
               className="cc-bottom-send-message-button"

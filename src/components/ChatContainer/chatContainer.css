@@ -41,6 +41,9 @@
   overflow-y: scroll;
   padding: 10px 20px;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .cc-conversation-box-wrapper {
@@ -217,7 +220,8 @@
     border: 1px solid lightgray;
     box-sizing: border-box;
     font-size: 15px;
-    height: 80%;
+    min-height: 80%;
+    max-height: 80%;
   }
 
   .cc-bottom-send-message-button {
@@ -227,6 +231,7 @@
     background-color: transparent;
     font-size: 25px;
     cursor: pointer;
+    outline: 2px solid black;
   }
 
   .cc-emp {

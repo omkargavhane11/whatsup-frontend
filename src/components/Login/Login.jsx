@@ -2,9 +2,12 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Login = () => {
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false);
 
   const [login, setLogin] = useState(true);
   const [optSent, setOtpSent] = useState(false);
@@ -27,6 +30,8 @@ const Login = () => {
       };
 
       if (email !== "" && password !== "") {
+        setLoading(true);
+
         const login = await axios.post(
           "https://whatsup-api-77.herokuapp.com/user/login",
           payload
@@ -44,11 +49,14 @@ const Login = () => {
           setName("");
           setPassword("");
         }
+
+        setLoading(false);
       } else {
         alert("Enter all details");
       }
     } catch (error) {
       console.log(error.message);
+      setLoading(false);
     }
   };
 
@@ -64,6 +72,7 @@ const Login = () => {
       };
 
       if (name !== "" && email !== "" && password !== "") {
+        setLoading(true);
         const signup = await axios.post(
           "https://whatsup-api-77.herokuapp.com/user/register",
           payload
@@ -81,6 +90,7 @@ const Login = () => {
         alert("Please enter all details");
       }
 
+      setLoading(false);
       setEmail("");
       setName("");
       setPassword("");
@@ -91,6 +101,7 @@ const Login = () => {
       setName("");
       setPassword("");
       setNumber("");
+      setLoading(false);
     }
   };
 
@@ -121,8 +132,16 @@ const Login = () => {
                   className="login-input"
                 />
               </div>
-              <button type="submit" className="login-send-otp-button">
-                Login
+              <button
+                disabled={loading}
+                type="submit"
+                className="login-send-otp-button"
+              >
+                {loading ? (
+                  <CircularProgress className="login-loader" />
+                ) : (
+                  "Login"
+                )}
               </button>
             </div>
             <div className="" onClick={() => setLogin(false)}>
@@ -199,8 +218,16 @@ const Login = () => {
                       />
                     </div>
                     <div>
-                      <button type="submit" className="login-send-otp-button">
-                        Sign Up
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="login-send-otp-button"
+                      >
+                        {loading ? (
+                          <CircularProgress className="login-loader" />
+                        ) : (
+                          "Sign Up"
+                        )}
                       </button>
                     </div>
                     <div>

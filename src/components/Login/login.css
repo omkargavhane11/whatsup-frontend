@@ -20,6 +20,12 @@
   height: 100%;
 }
 
+.login-loader {
+  height: 30px !important;
+  width: 30px !important;
+  color: white !important;
+}
+
 .loginheading {
   margin: 0px;
   padding: 0px;
