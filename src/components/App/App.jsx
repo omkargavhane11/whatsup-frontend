@@ -114,11 +114,12 @@ export const App = () => {
           </div>
           <div className="app-left-topbar">
             <div className="app-topbar-left">
-              <img
-                src="https://sites.google.com/site/doraemon1161104319/_/rsrc/1518075394469/characters-2/nobi-nobita/Sitting-Image-Of-Nobita.png?height=200&width=188"
+              {/* <img
+                src="https://p.kindpng.com/picc/s/21-211168_transparent-person-icon-png-png-download.png"
                 alt="user-image"
                 className="app-avatar"
-              />
+              /> */}
+              Whatsup
             </div>
             <div className="app-topbar-right">
               <PersonAddIcon

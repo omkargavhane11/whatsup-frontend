@@ -25,7 +25,7 @@ const Chat = ({
       <div className="chat-wrapper">
         <div className="chat-left">
           <img
-            src="https://sites.google.com/site/doraemon1161104319/_/rsrc/1518075394469/characters-2/nobi-nobita/Sitting-Image-Of-Nobita.png?height=200&width=188"
+            src="https://p.kindpng.com/picc/s/21-211168_transparent-person-icon-png-png-download.png"
             alt="user-image"
             className="chat-avatar"
           />
