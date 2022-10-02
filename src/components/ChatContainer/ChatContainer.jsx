@@ -4,16 +4,28 @@ import Message from "../Message/Message";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { io } from "socket.io-client";
 
 const ChatContainer = ({
   currentChat,
   setCurrentChat,
   messages,
   setMessages,
-  socket,
   chatBoxOpen,
   setChatBoxOpen,
 }) => {
+  // console.log(socket.current);
+
+  //
+  const API =
+    window.location.host === "localhost:3000"
+      ? "http://localhost:8080"
+      : "https://whatsup-api-77.herokuapp.com/";
+  const SOCKET_API =
+    window.location.host === "localhost:3000"
+      ? "ws://localhost:8900"
+      : "https://whatsup-socket.herokuapp.com";
+
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
 
   const ChatUser = currentChat?.members.find(
@@ -26,10 +38,11 @@ const ChatContainer = ({
     // socket
     const recieverId = ChatUser._id;
 
-    socket.current.emit("sendMessage", {
+    socket.current?.emit("sendMessage", {
       senderId: currentUser._id,
       recieverId,
       message: inputMessage,
+      chatId: currentChat._id,
     });
 
     //
@@ -39,33 +52,70 @@ const ChatContainer = ({
       chatId: currentChat._id,
     };
 
+    setMessages([
+      ...messages,
+      { ...payload, _id: Math.random().toString(), createdAt: Date.now() },
+    ]);
+    setCurrentChat({ ...currentChat, lastMessage: inputMessage });
+
     if (inputMessage.length !== 0) {
       try {
         const sendMessage = await axios.post(
-          "https://whatsup-api-77.herokuapp.com/message/new-message",
+          `${API}/message/new-message`,
           payload
         );
-        if (sendMessage.data.msg === "message sent") {
-          setMessages([
-            ...messages,
-            { ...payload, _id: Math.random().toString() },
-          ]);
-          setCurrentChat({ ...currentChat, lastMessage: inputMessage });
-        }
         console.log(sendMessage.data.msg);
       } catch (error) {
         console.log(error.message);
       }
-      setInputMessage("");
     } else {
       alert("Please type something to send message !");
     }
+
+    setInputMessage("");
   };
 
   const scrollRef = useRef();
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({ behavior: "auto" });
   }, [messages]);
+
+  //✅ socket
+
+  // const [socket, setSocket] = useState(null);
+  const socket = useRef();
+  const [socketMessage, setSocketMessage] = useState(null);
+  const [socketUsers, setSocketUsers] = useState(null);
+
+  useEffect(() => {
+    socket.current?.emit("addUser", currentUser._id);
+
+    socket.current?.on("getUsers", (users) => {
+      console.log(users);
+      setSocketUsers(users);
+    });
+  }, [currentChat]);
+
+  useEffect(() => {
+    socket.current = io(SOCKET_API);
+
+    socket.current?.on("getMessage", (data) => {
+      setSocketMessage({
+        senderId: data.senderId,
+        message: data.message,
+        createdAt: Date.now(),
+        chatId: data.chatId,
+      });
+      console.log(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (socketMessage) {
+      currentChat._id === socketMessage.chatId &&
+        setMessages([...messages, socketMessage]);
+    }
+  }, [socketMessage, currentChat]);
 
   return (
     <>
@@ -96,16 +146,22 @@ const ChatContainer = ({
             </div>
           </div>
           <div className="cc-conversation-box">
-            <div className="cc-conversation-box-wrapper">
-              {messages?.map((msg) => (
+            {/* <div className="cc-conversation-box-wrapper"> */}
+            {messages?.map((msg) => (
+              <div
+                className="cc-conversation-box-wrapper"
+                ref={scrollRef}
+                key={msg?._id}
+              >
                 <Message
-                  ref={scrollRef}
                   key={msg?._id}
                   msg={msg}
                   currentUser={msg?.senderId === currentUser._id}
+                  ref={scrollRef}
                 />
-              ))}
-            </div>
+              </div>
+            ))}
+            {/* </div> */}
           </div>
           <div className="cc-bottom">
             {/* <img

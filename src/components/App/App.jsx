@@ -12,10 +12,19 @@ import ContactList from "../ContactList/ContactList";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 
 export const App = () => {
   //
+  const API =
+    window.location.host === "localhost:3000"
+      ? "http://localhost:8080"
+      : "https://whatsup-api-77.herokuapp.com";
+  const SOCKET_API =
+    window.location.host === "localhost:3000"
+      ? "http://localhost:8900"
+      : "https://whatsup-socket.herokuapp.com";
+
   const navigate = useNavigate();
 
   //
@@ -38,9 +47,7 @@ export const App = () => {
   useEffect(() => {
     async function getChats() {
       try {
-        const res = await axios.get(
-          `https://whatsup-api-77.herokuapp.com/chat/get-chat/${currentUser._id}`
-        );
+        const res = await axios.get(`${API}/chat/get-chat/${currentUser._id}`);
         // console.log(res.data);
         setContactList(res.data);
       } catch (error) {
@@ -54,7 +61,7 @@ export const App = () => {
     async function getMsgs() {
       try {
         const getMessages = await axios.get(
-          `https://whatsup-api-77.herokuapp.com/message/get-chat-message/${currentChat._id}`
+          `${API}/message/get-chat-message/${currentChat._id}`
         );
         setMessages(getMessages.data);
       } catch (error) {
@@ -66,39 +73,42 @@ export const App = () => {
     }
   }, [currentChat?._id]);
 
-  //✅ socket
+  // //✅ socket
 
-  // const [socket, setSocket] = useState(null);
-  const socket = useRef(io("https://whatsup-socket.herokuapp.com"));
-  const [socketMessage, setSocketMessage] = useState(null);
+  // // const [socket, setSocket] = useState(null);
+  // const socket = useRef(io(SOCKET_API));
+  // const [socketMessage, setSocketMessage] = useState(null);
+  // const [socketUsers, setSocketUsers] = useState(null);
 
-  useEffect(() => {
-    socket.current.emit("addUser", currentUser._id);
+  // useEffect(() => {
+  //   socket.current.emit("addUser", currentUser._id);
 
-    socket.current.on("getUsers", (users) => {
-      console.log(users);
-    });
-  }, [currentUser._id]);
+  //   socket.current.on("getUsers", (users) => {
+  //     console.log(users);
+  //     setSocketUsers(users);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    socket.current = io("https://whatsup-socket.herokuapp.com");
+  // useEffect(() => {
+  //   socket.current = io(SOCKET_API);
 
-    socket.current.on("getMessage", (data) => {
-      setSocketMessage({
-        senderId: data.senderId,
-        message: data.message,
-        createdAt: Date.now(),
-        chatId: data.chatId,
-      });
-    });
-  }, []);
+  //   socket.current.on("getMessage", (data) => {
+  //     setSocketMessage({
+  //       senderId: data.senderId,
+  //       message: data.message,
+  //       createdAt: Date.now(),
+  //       chatId: data.chatId,
+  //     });
+  //     console.log(data);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    if (socketMessage) {
-      currentChat.members.includes(socketMessage.senderId) &&
-        setMessages([...messages, socketMessage]);
-    }
-  }, [socketMessage, currentChat]);
+  // useEffect(() => {
+  //   if (socketMessage) {
+  //     currentChat.members.includes(socketMessage.senderId) &&
+  //       setMessages([...messages, socketMessage]);
+  //   }
+  // }, [socketMessage, currentChat]);
 
   return (
     <div>
@@ -172,7 +182,6 @@ export const App = () => {
             setCurrentChat={setCurrentChat}
             messages={messages}
             setMessages={setMessages}
-            socket={socket}
             chatBoxOpen={chatBoxOpen}
             setChatBoxOpen={setChatBoxOpen}
           />
