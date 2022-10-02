@@ -28,7 +28,7 @@ const Login = () => {
 
       if (email !== "" && password !== "") {
         const login = await axios.post(
-          "http://localhost:8080/user/login",
+          "https://whatsup-api-77.herokuapp.com/user/login",
           payload
         );
 
@@ -65,7 +65,7 @@ const Login = () => {
 
       if (name !== "" && email !== "" && password !== "") {
         const signup = await axios.post(
-          "http://localhost:8080/user/register",
+          "https://whatsup-api-77.herokuapp.com/user/register",
           payload
         );
 
@@ -133,7 +133,7 @@ const Login = () => {
       ) : (
         <form className="login" onSubmit={handleSignup}>
           <div className="login-wrapper">
-            <h2 className="login-heading">Signup with mobile number</h2>
+            <h2 className="login-heading">Sign Up</h2>
             {!registered && (
               <div className="login-input-container">
                 {optSent && (
@@ -216,10 +216,10 @@ const Login = () => {
               </div>
             )}
             {registered && (
-              <>
-                <h3>Registered Succcessfully</h3>
+              <div className="login-registration-success">
+                <h2>Registered Succcessfully</h2>
                 <button onClick={() => setLogin(true)}>Login ➡</button>
-              </>
+              </div>
             )}
           </div>
         </form>

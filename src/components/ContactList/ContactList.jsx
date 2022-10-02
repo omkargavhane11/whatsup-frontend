@@ -27,7 +27,7 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
     } else {
       try {
         const addContact = await axios.post(
-          "http://localhost:8080/chat/create-chat",
+          "https://whatsup-api-77.herokuapp.com/chat/create-chat",
           newContact
         );
         alert(addContact.data.msg);

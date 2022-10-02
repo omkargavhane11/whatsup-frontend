@@ -39,7 +39,7 @@ export const App = () => {
     async function getChats() {
       try {
         const res = await axios.get(
-          `http://localhost:8080/chat/get-chat/${currentUser._id}`
+          `https://whatsup-api-77.herokuapp.com/chat/get-chat/${currentUser._id}`
         );
         // console.log(res.data);
         setContactList(res.data);
@@ -54,7 +54,7 @@ export const App = () => {
     async function getMsgs() {
       try {
         const getMessages = await axios.get(
-          `http://localhost:8080/message/get-chat-message/${currentChat._id}`
+          `https://whatsup-api-77.herokuapp.com/message/get-chat-message/${currentChat._id}`
         );
         setMessages(getMessages.data);
       } catch (error) {

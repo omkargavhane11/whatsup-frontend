@@ -42,7 +42,7 @@ const ChatContainer = ({
     if (inputMessage.length !== 0) {
       try {
         const sendMessage = await axios.post(
-          "http://localhost:8080/message/new-message",
+          "https://whatsup-api-77.herokuapp.com/message/new-message",
           payload
         );
         if (sendMessage.data.msg === "message sent") {
