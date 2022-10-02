@@ -1,7 +1,7 @@
 import "./chatContainer.css";
 import SendIcon from "@mui/icons-material/Send";
 import Message from "../Message/Message";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
@@ -62,6 +62,11 @@ const ChatContainer = ({
     }
   };
 
+  const scrollRef = useRef();
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <>
       {currentChat && (
@@ -94,6 +99,7 @@ const ChatContainer = ({
             <div className="cc-conversation-box-wrapper">
               {messages?.map((msg) => (
                 <Message
+                  ref={scrollRef}
                   key={msg?._id}
                   msg={msg}
                   currentUser={msg?.senderId === currentUser._id}
