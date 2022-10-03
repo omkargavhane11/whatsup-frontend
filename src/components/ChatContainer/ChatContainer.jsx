@@ -9,12 +9,27 @@ import { io } from "socket.io-client";
 const ChatContainer = ({
   currentChat,
   setCurrentChat,
-  messages,
-  setMessages,
   chatBoxOpen,
   setChatBoxOpen,
 }) => {
-  // console.log(socket.current);
+  const [messages, setMessages] = useState([]);
+
+  //
+  useEffect(() => {
+    async function getMsgs() {
+      try {
+        const getMessages = await axios.get(
+          `${API}/message/get-chat-message/${currentChat._id}`
+        );
+        setMessages(getMessages.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    if (currentChat) {
+      getMsgs();
+    }
+  }, [currentChat?._id]);
 
   //
   const API =
@@ -132,7 +147,8 @@ const ChatContainer = ({
             </div>
             <div className="cc-top-left">
               <img
-                src="https://sites.google.com/site/doraemon1161104319/_/rsrc/1518075394469/characters-2/nobi-nobita/Sitting-Image-Of-Nobita.png?height=200&width=188"
+                // src="https://sites.google.com/site/doraemon1161104319/_/rsrc/1518075394469/characters-2/nobi-nobita/Sitting-Image-Of-Nobita.png?height=200&width=188"
+                src="https://p.kindpng.com/picc/s/21-211168_transparent-person-icon-png-png-download.png"
                 alt="user-image"
                 className="cc-avatar"
               />
@@ -199,7 +215,7 @@ const ChatContainer = ({
         </div>
       )}
       {!currentChat && (
-        <h3 className="cc-emp">Select chat to have conversation</h3>
+        <p className="cc-emp">Select chat to have conversation</p>
       )}
     </>
   );

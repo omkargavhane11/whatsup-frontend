@@ -37,7 +37,6 @@ export const App = () => {
   const [contactList, setContactList] = useState([]);
 
   const [currentChat, setCurrentChat] = useState(null);
-  const [messages, setMessages] = useState([]);
 
   const handleLogout = () => {
     navigate("/");
@@ -56,59 +55,6 @@ export const App = () => {
     }
     getChats();
   }, []);
-
-  useEffect(() => {
-    async function getMsgs() {
-      try {
-        const getMessages = await axios.get(
-          `${API}/message/get-chat-message/${currentChat._id}`
-        );
-        setMessages(getMessages.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    if (currentChat) {
-      getMsgs();
-    }
-  }, [currentChat?._id]);
-
-  // //✅ socket
-
-  // // const [socket, setSocket] = useState(null);
-  // const socket = useRef(io(SOCKET_API));
-  // const [socketMessage, setSocketMessage] = useState(null);
-  // const [socketUsers, setSocketUsers] = useState(null);
-
-  // useEffect(() => {
-  //   socket.current.emit("addUser", currentUser._id);
-
-  //   socket.current.on("getUsers", (users) => {
-  //     console.log(users);
-  //     setSocketUsers(users);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   socket.current = io(SOCKET_API);
-
-  //   socket.current.on("getMessage", (data) => {
-  //     setSocketMessage({
-  //       senderId: data.senderId,
-  //       message: data.message,
-  //       createdAt: Date.now(),
-  //       chatId: data.chatId,
-  //     });
-  //     console.log(data);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   if (socketMessage) {
-  //     currentChat.members.includes(socketMessage.senderId) &&
-  //       setMessages([...messages, socketMessage]);
-  //   }
-  // }, [socketMessage, currentChat]);
 
   return (
     <div>
@@ -180,8 +126,6 @@ export const App = () => {
           <ChatContainer
             currentChat={currentChat}
             setCurrentChat={setCurrentChat}
-            messages={messages}
-            setMessages={setMessages}
             chatBoxOpen={chatBoxOpen}
             setChatBoxOpen={setChatBoxOpen}
           />
