@@ -3,9 +3,11 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import CircularProgress from "@mui/material/CircularProgress";
+import { Box, useToast } from "@chakra-ui/react";
 
 const Login = () => {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const [loading, setLoading] = useState(false);
 
@@ -44,7 +46,19 @@ const Login = () => {
           setName("");
           setPassword("");
         } else {
-          alert(login.data.msg);
+          toast({
+            // title: "Error",
+            // description: login.data.msg,
+            // status: "error",
+            render: () => (
+              <Box color="white" p={3} bg="teal" borderRadius={"2px"}>
+                {login.data.msg}
+              </Box>
+            ),
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
           setEmail("");
           setName("");
           setPassword("");
@@ -52,7 +66,14 @@ const Login = () => {
 
         setLoading(false);
       } else {
-        alert("Enter all details");
+        toast({
+          // title: "Error",
+          description: "Enter all details",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
       }
     } catch (error) {
       console.log(error.message);
@@ -81,13 +102,35 @@ const Login = () => {
         if (signup.data.msg === "registration successfull") {
           // navigate("/user/46546213");
           setRegistered(true);
+          toast({
+            // title: "Error",
+            description: "Registered Successfully",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
         } else if (
           signup.data.msg === "User already registered with the same email"
         ) {
-          alert(signup.data.msg);
+          toast({
+            // title: "Error",
+            description: signup.data.msg,
+            status: "warning",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
         }
       } else {
-        alert("Please enter all details");
+        toast({
+          // title: "Error",
+          description: "Please enter all details",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
       }
 
       setLoading(false);
@@ -97,6 +140,14 @@ const Login = () => {
       setNumber("");
     } catch (error) {
       console.log(error.message);
+      toast({
+        // title: "Error",
+        description: error.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
       setEmail("");
       setName("");
       setPassword("");
@@ -138,13 +189,13 @@ const Login = () => {
                 className="login-send-otp-button"
               >
                 {loading ? (
-                  <CircularProgress className="login-loader" />
+                  <CircularProgress color="inherit" className="login-loader" />
                 ) : (
                   "Login"
                 )}
               </button>
             </div>
-            <div className="" onClick={() => setLogin(false)}>
+            <div className="login-bottom-link" onClick={() => setLogin(false)}>
               New User ? <span className="login-signup-link">Sign up</span>
             </div>
           </div>
@@ -224,7 +275,10 @@ const Login = () => {
                         className="login-send-otp-button"
                       >
                         {loading ? (
-                          <CircularProgress className="login-loader" />
+                          <CircularProgress
+                            color="inherit"
+                            className="login-loader"
+                          />
                         ) : (
                           "Sign Up"
                         )}

@@ -23,8 +23,8 @@
 }
 
 .login-loader {
-  height: 30px !important;
-  width: 30px !important;
+  height: 25px !important;
+  width: 25px !important;
   color: white !important;
 }
 
@@ -32,6 +32,7 @@
   margin: 0px;
   padding: 0px;
   letter-spacing: 2px !important;
+  font-size: 30px;
 }
 
 .login-input-container {
@@ -46,6 +47,7 @@
   font-size: 18px;
   height: 30px;
   border-radius: 3px;
+  color: black;
 }
 
 .login-send-otp-button {
@@ -73,11 +75,16 @@ input[type="number"]::-webkit-outer-spin-button {
   text-decoration: underline;
   cursor: pointer;
   text-align: center;
+  margin-top: 20px;
 }
 
 .login-signup-link:hover {
   text-decoration: underline;
   color: rgb(72, 251, 179);
+}
+
+.login-bottom-link {
+  margin-top: 20px;
 }
 
 /*  */
@@ -120,6 +127,7 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0px;
     padding: 0px;
     letter-spacing: 2px !important;
+    font-size: 30px;
   }
 
   .login-input {
@@ -129,6 +137,13 @@ input[type="number"]::-webkit-outer-spin-button {
     padding: 4px;
     box-sizing: border-box;
     border-radius: 3px;
+    color: black;
+  }
+
+  .login-loader {
+    height: 25px !important;
+    width: 25px !important;
+    color: white !important;
   }
 
   .login-send-otp-button {
@@ -151,6 +166,7 @@ input[type="number"]::-webkit-outer-spin-button {
   .login-signup-link {
     text-decoration: underline;
     cursor: pointer;
+    margin-top: 20px;
   }
 
   .login-signup-link:hover {

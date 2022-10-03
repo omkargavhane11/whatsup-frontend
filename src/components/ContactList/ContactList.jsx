@@ -2,9 +2,11 @@ import "./contactList.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
 import axios from "axios";
+import { useToast } from "@chakra-ui/react";
 
 const ContactList = ({ contact, setContact, contactList, setContactList }) => {
-  const [searching, setSearching] = useState(false);
+  const toast = useToast();
+  // const [searching, setSearching] = useState(false);
   // new contact deatils
   const [number, setNumber] = useState("");
   const [name, setName] = useState("");
@@ -19,9 +21,21 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
     };
 
     if (number.length === 0 || name.length === 0 || number.length !== 10) {
-      alert("Enter valid details");
+      toast({
+        description: "Enter valid details",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } else if (newContact.contact === currentUser.contact) {
-      alert("You cannot add your own number");
+      toast({
+        description: "You cannot add your own number",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
       setNumber("");
       setName("");
     } else {
@@ -30,11 +44,24 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
           "https://whatsup-api-77.herokuapp.com/chat/create-chat",
           newContact
         );
-        alert(addContact.data.msg);
+        toast({
+          description: addContact.data.msg,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
         setNumber("");
         setName("");
       } catch (error) {
         console.log(error);
+        toast({
+          description: error.message,
+          status: "info",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
         setNumber("");
         setName("");
       }
