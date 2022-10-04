@@ -60,6 +60,7 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
             isClosable: true,
             position: "top",
           });
+          setContactList([...contactList, newContact]);
         }
         setNumber("");
         setName("");
