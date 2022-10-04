@@ -6,6 +6,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Box, useToast } from "@chakra-ui/react";
 
 const Login = () => {
+  const API =
+    window.location.host === "localhost:3000"
+      ? "http://localhost:8080"
+      : "https://whatsup-api-77.herokuapp.com";
+  const SOCKET_API =
+    window.location.host === "localhost:3000"
+      ? "http://localhost:8900"
+      : "https://whatsup-socket.herokuapp.com";
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -27,47 +36,33 @@ const Login = () => {
 
     try {
       const payload = {
-        email,
+        contact: number,
         password,
       };
 
-      if (email !== "" && password !== "") {
+      if (number !== "" && password !== "") {
         setLoading(true);
 
-        const login = await axios.post(
-          "https://whatsup-api-77.herokuapp.com/user/login",
-          payload
-        );
+        const login = await axios.post(`${API}/user/login`, payload);
 
         if (login.data.msg === "success") {
           navigate("/user");
           localStorage.setItem("whatsupuser", JSON.stringify(login.data.user));
-          setEmail("");
-          setName("");
-          setPassword("");
+          emptyInputs();
         } else {
           toast({
-            // title: "Error",
-            // description: login.data.msg,
-            // status: "error",
-            render: () => (
-              <Box color="white" p={3} bg="teal" borderRadius={"2px"}>
-                {login.data.msg}
-              </Box>
-            ),
+            description: login.data.msg,
+            status: "error",
             duration: 3000,
             isClosable: true,
             position: "top",
           });
-          setEmail("");
-          setName("");
-          setPassword("");
+          emptyInputs();
         }
 
         setLoading(false);
       } else {
         toast({
-          // title: "Error",
           description: "Enter all details",
           status: "warning",
           duration: 3000,
@@ -94,16 +89,11 @@ const Login = () => {
 
       if (name !== "" && email !== "" && password !== "") {
         setLoading(true);
-        const signup = await axios.post(
-          "https://whatsup-api-77.herokuapp.com/user/register",
-          payload
-        );
+        const signup = await axios.post(`${API}/user/register`, payload);
 
         if (signup.data.msg === "registration successfull") {
-          // navigate("/user/46546213");
           setRegistered(true);
           toast({
-            // title: "Error",
             description: "Registered Successfully",
             status: "success",
             duration: 3000,
@@ -114,7 +104,6 @@ const Login = () => {
           signup.data.msg === "User already registered with the same email"
         ) {
           toast({
-            // title: "Error",
             description: signup.data.msg,
             status: "warning",
             duration: 3000,
@@ -124,7 +113,6 @@ const Login = () => {
         }
       } else {
         toast({
-          // title: "Error",
           description: "Please enter all details",
           status: "warning",
           duration: 3000,
@@ -134,27 +122,27 @@ const Login = () => {
       }
 
       setLoading(false);
-      setEmail("");
-      setName("");
-      setPassword("");
-      setNumber("");
+      emptyInputs();
     } catch (error) {
       console.log(error.message);
       toast({
-        // title: "Error",
         description: error.message,
         status: "error",
         duration: 3000,
         isClosable: true,
         position: "top",
       });
-      setEmail("");
-      setName("");
-      setPassword("");
-      setNumber("");
+      emptyInputs();
       setLoading(false);
     }
   };
+
+  function emptyInputs() {
+    setEmail("");
+    setName("");
+    setPassword("");
+    setNumber("");
+  }
 
   return (
     <>
@@ -163,12 +151,12 @@ const Login = () => {
           <div className="login-wrapper">
             <h2 className="login-heading">Login</h2>
             <div className="login-input-container">
-              <div>Email</div>
+              <div>Mobile Number</div>
               <div>
                 <input
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
+                  value={number}
+                  onChange={(e) => setNumber(e.target.value)}
+                  type="number"
                   className="login-input"
                 />
               </div>
@@ -196,14 +184,17 @@ const Login = () => {
               </button>
             </div>
             <div className="login-bottom-link" onClick={() => setLogin(false)}>
-              New User ? <span className="login-signup-link">Sign up</span>
+              New User ?{" "}
+              <span className="login-signup-link" onClick={emptyInputs}>
+                Sign up
+              </span>
             </div>
           </div>
         </form>
       ) : (
         <form className="login" onSubmit={handleSignup}>
           <div className="login-wrapper">
-            <h2 className="login-heading">Sign Up</h2>
+            {!registered && <h2 className="login-heading">Sign Up</h2>}
             {!registered && (
               <div className="login-input-container">
                 {optSent && (
@@ -287,7 +278,10 @@ const Login = () => {
                     <div>
                       <div
                         className="login-signup-link"
-                        onClick={() => setLogin(true)}
+                        onClick={() => {
+                          emptyInputs();
+                          setLogin(true);
+                        }}
                       >
                         Login
                       </div>
@@ -299,7 +293,15 @@ const Login = () => {
             {registered && (
               <div className="login-registration-success">
                 <h2>Registered Succcessfully</h2>
-                <button onClick={() => setLogin(true)}>Login ➡</button>
+                <button
+                  onClick={() => {
+                    setRegistered(false);
+                    setLogin(true);
+                    emptyInputs();
+                  }}
+                >
+                  Login ➡
+                </button>
               </div>
             )}
           </div>

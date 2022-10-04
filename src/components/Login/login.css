@@ -177,11 +177,13 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* height: 90vh;
-    width: 95vw; */
-    background-color: #fff;
-    color: rgb(14, 130, 35);
+    color: rgb(1, 187, 35);
   }
+
+  .login-registration-success > h2 {
+    font-size: 25px;
+  }
+
   .login-registration-success > button {
     height: 35px;
     font-size: 18px;
@@ -192,5 +194,6 @@ input[type="number"]::-webkit-outer-spin-button {
     background-color: rgb(3, 95, 58);
     color: #fff;
     margin: 15px 0px;
+    border: 1px solid #fff;
   }
 }

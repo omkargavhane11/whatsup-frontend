@@ -44,13 +44,23 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
           "https://whatsup-api-77.herokuapp.com/chat/create-chat",
           newContact
         );
-        toast({
-          description: addContact.data.msg,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          position: "top",
-        });
+        if (addContact.data.msg.split(" ")[0] !== "Chat") {
+          toast({
+            description: addContact.data.msg,
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+        } else {
+          toast({
+            description: addContact.data.msg,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+        }
         setNumber("");
         setName("");
       } catch (error) {
