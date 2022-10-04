@@ -127,7 +127,6 @@
 @media screen and (max-width: 420px) {
   .cc {
     height: 100vh;
-    background-color: blue;
     position: absolute;
     top: 0px;
   }
