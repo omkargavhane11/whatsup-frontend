@@ -29,7 +29,7 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
     const newContact = {
       contact: number,
       name,
-      userId: currentUser._id,
+      userId: currentUser?._id,
     };
 
     if (number.length === 0 || name.length === 0 || number.length !== 10) {

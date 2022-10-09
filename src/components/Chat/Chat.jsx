@@ -34,10 +34,10 @@ const Chat = ({
           <div className="chat-right-top">
             <div className="chat-contact-name">{ChatUser?.contact}</div>
             <p className="chat-lastest-msg-time">
-              {moment(item?.lastMessage?.time).format("lll")}
+              {moment(item?.lastMessage?.createdAt).format("lll")}
             </p>
           </div>
-          <div className="chat-latest-msg">{item?.lastMessage?.message}</div>
+          <div className="chat-latest-msg"></div>
         </div>
       </div>
     </div>

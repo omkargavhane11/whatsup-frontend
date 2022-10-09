@@ -1,18 +1,19 @@
 import "./app.css";
+// components
 import Chat from "../Chat/Chat";
+import ContactList from "../ContactList/ContactList";
 import ChatContainer from "../ChatContainer/ChatContainer";
-//
+import ChatSkeleton from "../ChatSkeleton/ChatSkeleton";
+// icons
 import SearchIcon from "@mui/icons-material/Search";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import LogoutIcon from "@mui/icons-material/Logout";
-// import HomeModal from "../modals/HomeModal/HomeModal";
-import ContactList from "../ContactList/ContactList";
 //
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import { io } from "socket.io-client";
+import { chat_skeleton } from "../../skeleton.js";
 
 export const App = () => {
   //
@@ -32,10 +33,9 @@ export const App = () => {
 
   // logged-in user
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
-  console.log(currentUser);
 
   const [contact, setContact] = useState(false);
-  const [contactList, setContactList] = useState([]);
+  const [contactList, setContactList] = useState(null);
 
   const [currentChat, setCurrentChat] = useState(null);
 
@@ -47,14 +47,19 @@ export const App = () => {
   useEffect(() => {
     async function getChats() {
       try {
-        const res = await axios.get(`${API}/chat/get-chat/${currentUser._id}`);
+        const res = await axios.get(`${API}/chat/get-chat/${currentUser?._id}`);
         setContactList(res.data);
-        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
     }
     getChats();
+  }, []);
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/");
+    }
   }, []);
 
   return (
@@ -103,9 +108,11 @@ export const App = () => {
           <div className="app-left-chatbox">
             <div className="app-left-chatbox-wrapper">
               <>
-                {contactList.length > 0 && (
+                {contactList === null &&
+                  chat_skeleton.map((item) => <ChatSkeleton />)}
+                {contactList?.length > 0 && (
                   <>
-                    {contactList.map((item) => (
+                    {contactList?.map((item) => (
                       <Chat
                         key={item._id}
                         item={item}
@@ -116,7 +123,7 @@ export const App = () => {
                     ))}
                   </>
                 )}
-                {!contactList.length && (
+                {!contactList?.length && contactList !== null && (
                   <h3 className="app-emp">Add Contacts to Chat</h3>
                 )}
               </>

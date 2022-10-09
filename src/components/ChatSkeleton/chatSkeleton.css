@@ -1,0 +1,128 @@
+.skeleton-chat {
+  box-sizing: border-box;
+  cursor: pointer;
+  margin: 0px;
+}
+
+.skeleton-chat-wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+
+.skeleton-chat-avatar {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  animation: skeleton-loading 1s infinite alternate;
+}
+
+.skeleton-chat-right-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.skeleton-chat-latest-msg {
+  height: 25px;
+  font-weight: 300;
+  width: 380px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.skeleton-chat-lastest-msg-time {
+  font-size: 14px;
+}
+
+.skeleton-chat-right {
+  width: 80%;
+  animation: skeleton-loading 1s infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(0, 0%, 76%);
+  }
+  100% {
+    background-color: hsl(180, 3%, 93%);
+  }
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+
+@media screen and (max-width: 420px) {
+  .skeleton-chat {
+    cursor: pointer;
+    box-sizing: border-box;
+    max-width: 100vw;
+  }
+
+  .skeleton-chat-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px;
+    padding: 5px 5px;
+    box-sizing: border-box;
+    max-width: 100vw;
+    overflow-x: hidden;
+    height: 70px;
+  }
+
+  .skeleton-chat-avatar {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    animation: skeleton-loading 1s infinite alternate;
+  }
+
+  .skeleton-chat-right-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .skeleton-chat-latest-msg {
+    height: 25px;
+    font-weight: 300;
+    width: 80vw;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .skeleton-chat-lastest-msg-time {
+    font-size: 14px;
+  }
+
+  .skeleton-chat-left {
+    width: 20%;
+    display: flex;
+  }
+
+  .skeleton-chat-right {
+    width: 85%;
+    animation: skeleton-loading 1s infinite alternate;
+    height: 50px;
+    border-radius: 5px;
+  }
+}
