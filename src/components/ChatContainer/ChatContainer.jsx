@@ -48,7 +48,7 @@ const ChatContainer = ({
 
   //
   const ChatUser = currentChat?.members.find(
-    (member) => member._id !== currentUser._id
+    (member) => member._id !== currentUser?._id
   );
 
   const [inputMessage, setInputMessage] = useState("");
@@ -58,7 +58,7 @@ const ChatContainer = ({
     const recieverId = ChatUser._id;
 
     socket.current?.emit("sendMessage", {
-      senderId: currentUser._id,
+      senderId: currentUser?._id,
       recieverId,
       message: inputMessage,
       chatId: currentChat._id,
@@ -66,7 +66,7 @@ const ChatContainer = ({
 
     //
     const payload = {
-      senderId: currentUser._id,
+      senderId: currentUser?._id,
       message: inputMessage,
       chatId: currentChat._id,
     };
@@ -106,7 +106,7 @@ const ChatContainer = ({
   const [socketUsers, setSocketUsers] = useState(null);
 
   useEffect(() => {
-    socket.current?.emit("addUser", currentUser._id);
+    socket.current?.emit("addUser", currentUser?._id);
 
     socket.current?.on("getUsers", (users) => {
       console.log(users);
@@ -175,7 +175,7 @@ const ChatContainer = ({
                 <Message
                   key={msg?._id}
                   msg={msg}
-                  currentUser={msg?.senderId === currentUser._id}
+                  currentUser={msg?.senderId === currentUser?._id}
                   // ref={scrollRef}
                 />
               </div>
