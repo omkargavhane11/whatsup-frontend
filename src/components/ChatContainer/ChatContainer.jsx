@@ -11,10 +11,12 @@ const ChatContainer = ({
   setCurrentChat,
   chatBoxOpen,
   setChatBoxOpen,
+  contactList,
+  setContactList,
 }) => {
   const [messages, setMessages] = useState([]);
 
-  //
+  // fetch chats of user
   useEffect(() => {
     async function getMsgs() {
       try {
@@ -41,8 +43,10 @@ const ChatContainer = ({
       ? "ws://localhost:8900"
       : "https://whatsup-socket.herokuapp.com";
 
+  // logged in user data
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
 
+  //
   const ChatUser = currentChat?.members.find(
     (member) => member._id !== currentUser._id
   );
@@ -172,7 +176,7 @@ const ChatContainer = ({
                   key={msg?._id}
                   msg={msg}
                   currentUser={msg?.senderId === currentUser._id}
-                  ref={scrollRef}
+                  // ref={scrollRef}
                 />
               </div>
             ))}

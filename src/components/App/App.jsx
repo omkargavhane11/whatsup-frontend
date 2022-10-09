@@ -32,6 +32,7 @@ export const App = () => {
 
   // logged-in user
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
+  console.log(currentUser);
 
   const [contact, setContact] = useState(false);
   const [contactList, setContactList] = useState([]);
@@ -47,8 +48,8 @@ export const App = () => {
     async function getChats() {
       try {
         const res = await axios.get(`${API}/chat/get-chat/${currentUser._id}`);
-        // console.log(res.data);
         setContactList(res.data);
+        console.log(res.data);
       } catch (error) {
         console.log(error);
       }

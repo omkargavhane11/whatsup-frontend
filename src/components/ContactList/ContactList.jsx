@@ -3,8 +3,20 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const ContactList = ({ contact, setContact, contactList, setContactList }) => {
+  const API =
+    window.location.host === "localhost:3000"
+      ? "http://localhost:8080"
+      : "https://whatsup-api-77.herokuapp.com";
+  const SOCKET_API =
+    window.location.host === "localhost:3000"
+      ? "http://localhost:8900"
+      : "https://whatsup-socket.herokuapp.com";
+
+  const [loading, setLoading] = useState(false);
+
   const toast = useToast();
   // const [searching, setSearching] = useState(false);
   // new contact deatils
@@ -39,12 +51,17 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
       setNumber("");
       setName("");
     } else {
+      setLoading(true);
       try {
         const addContact = await axios.post(
-          "https://whatsup-api-77.herokuapp.com/chat/create-chat",
+          `${API}/chat/create-chat`,
           newContact
         );
-        if (addContact.data.msg.split(" ")[0] !== "Chat") {
+        if (
+          addContact.data.msg.split(" ")[0] === "Chat" ||
+          "User" ||
+          "failed"
+        ) {
           toast({
             description: addContact.data.msg,
             status: "error",
@@ -76,9 +93,8 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
         setNumber("");
         setName("");
       }
+      setLoading(false);
     }
-
-    // setContactList([...contactList, newContact]);
   };
 
   return (
@@ -110,7 +126,11 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
           </div>
           <span>
             <button className="cl-search-button" onClick={handleAddContact}>
-              Save
+              {loading ? (
+                <CircularProgress color="inherit" className="login-loader" />
+              ) : (
+                "Save"
+              )}
             </button>
           </span>
         </div>

@@ -10,8 +10,8 @@ const Chat = ({
 }) => {
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
 
-  const ChatUser = item.members.find(
-    (member) => member._id !== currentUser._id
+  const ChatUser = item?.members?.find(
+    (member) => member?._id !== currentUser?._id
   );
 
   return (
@@ -37,7 +37,7 @@ const Chat = ({
               {moment(item?.lastMessage?.time).format("lll")}
             </p>
           </div>
-          <div className="chat-latest-msg">{item?.lastMessage?.msg}</div>
+          <div className="chat-latest-msg">{item?.lastMessage?.message}</div>
         </div>
       </div>
     </div>

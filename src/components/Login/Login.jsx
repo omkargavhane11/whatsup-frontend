@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -18,6 +18,8 @@ const Login = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
+  // logged-in user
+  const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
   const [loading, setLoading] = useState(false);
 
   const [login, setLogin] = useState(true);
@@ -143,6 +145,12 @@ const Login = () => {
     setPassword("");
     setNumber("");
   }
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate("/user");
+    }
+  }, []);
 
   return (
     <>

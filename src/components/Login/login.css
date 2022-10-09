@@ -65,11 +65,11 @@ input:increment {
   display: none;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
+/* input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
+} */
 
 .login-signup-link {
   text-decoration: underline;
@@ -157,11 +157,11 @@ input[type="number"]::-webkit-outer-spin-button {
     display: none;
   }
 
-  input[type="number"]::-webkit-inner-spin-button,
+  /* input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
-  }
+  } */
 
   .login-signup-link {
     text-decoration: underline;
