@@ -53,7 +53,8 @@ const ChatContainer = ({
 
   const [inputMessage, setInputMessage] = useState("");
 
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault();
     // socket
     const recieverId = ChatUser._id;
 
@@ -65,18 +66,18 @@ const ChatContainer = ({
     });
 
     //
-    const payload = {
-      senderId: currentUser?._id,
-      message: inputMessage,
-      chatId: currentChat._id,
-    };
-
-    setMessages([
-      ...messages,
-      { ...payload, _id: Math.random().toString(), createdAt: Date.now() },
-    ]);
 
     if (inputMessage.length !== 0) {
+      const payload = {
+        senderId: currentUser?._id,
+        message: inputMessage,
+        chatId: currentChat._id,
+      };
+
+      setMessages([
+        ...messages,
+        { ...payload, _id: Math.random().toString(), createdAt: Date.now() },
+      ]);
       try {
         const sendMessage = await axios.post(
           `${API}/message/new-message`,
@@ -195,20 +196,22 @@ const ChatContainer = ({
               />
               <input type="file" className="cc-bottom-file-attachment" />
             </div> */}
-            <input
-              type="text"
-              placeholder="Type a message..."
-              className="cc-message-box"
-              onChange={(e) => setInputMessage(e.target.value)}
-              value={inputMessage}
-              id="send-message"
-              onKeyUp={(e) => {
-                if (e.target.code === 13) {
-                  // sendMessage();
-                  console.log("enter pressed");
-                }
-              }}
-            />
+            <form action="" onSubmit={sendMessage} style={{ width: "100%" }}>
+              <input
+                type="text"
+                placeholder="Type a message..."
+                className="cc-message-box"
+                onChange={(e) => setInputMessage(e.target.value)}
+                value={inputMessage}
+                id="send-message"
+                onKeyUp={(e) => {
+                  if (e.target.code === 13) {
+                    sendMessage();
+                    console.log("enter pressed");
+                  }
+                }}
+              />
+            </form>
             <div
               className="cc-bottom-send-message-button"
               onClick={sendMessage}

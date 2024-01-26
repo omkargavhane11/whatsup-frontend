@@ -14,6 +14,8 @@ const Chat = ({
     (member) => member?._id !== currentUser?._id
   );
 
+  console.log("chat user :: ", ChatUser);
+
   return (
     <div
       className="chat"
@@ -32,7 +34,10 @@ const Chat = ({
         </div>
         <div className="chat-right">
           <div className="chat-right-top">
-            <div className="chat-contact-name">{ChatUser?.contact}</div>
+            <div className="chat-contact-name">
+              {ChatUser?.name}{" "}
+              {/* <span style={{ fontSize: "12px" }}>{ChatUser?.contact}</span> */}
+            </div>
             <p className="chat-lastest-msg-time">
               {moment(item?.lastMessage?.createdAt).format("lll")}
             </p>

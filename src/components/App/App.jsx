@@ -81,7 +81,7 @@ export const App = () => {
                 alt="user-image"
                 className="app-avatar"
               /> */}
-              Whatssup
+              Hello, {currentUser?.name} !
             </div>
             <div className="app-topbar-right">
               <PersonAddIcon
