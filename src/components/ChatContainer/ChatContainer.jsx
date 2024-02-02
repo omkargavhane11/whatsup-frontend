@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { io } from "socket.io-client";
+import moment from "moment";
 
 const ChatContainer = ({
   currentChat,
@@ -167,20 +168,64 @@ const ChatContainer = ({
           </div>
           <div className="cc-conversation-box">
             {/* <div className="cc-conversation-box-wrapper"> */}
-            {messages?.map((msg) => (
-              <div
-                className="cc-conversation-box-wrapper"
-                ref={scrollRef}
-                key={msg?._id}
-              >
-                <Message
+            {messages?.map((msg, index, array) => {
+              let showDateBadge =
+                index === 0
+                  ? true
+                  : new Date(array[index - 1]?.createdAt)
+                      .toLocaleDateString()
+                      .split("/")[0] ===
+                    new Date(msg?.createdAt).toLocaleDateString().split("/")[0]
+                  ? false
+                  : true;
+
+              let currentDate = new Date();
+              let yesterdayDate = new Date();
+              yesterdayDate.setDate(yesterdayDate - 1);
+              let messageDate = new Date(msg?.createdAt);
+
+              let isToday =
+                currentDate.toLocaleDateString().toString() ===
+                messageDate.toLocaleDateString().toString();
+
+              let isYesterday =
+                yesterdayDate.toLocaleDateString().toString() ===
+                messageDate.toLocaleDateString().toString();
+
+              return (
+                <div
+                  className="cc-conversation-box-wrapper"
+                  ref={scrollRef}
                   key={msg?._id}
-                  msg={msg}
-                  currentUser={msg?.senderId === currentUser?._id}
-                  // ref={scrollRef}
-                />
-              </div>
-            ))}
+                >
+                  {showDateBadge ? (
+                    <div
+                      style={{
+                        fontSize: "12px",
+                        padding: "3px 6px",
+                        borderRadius: "4px",
+                        textAlign: "center",
+                        alignSelf: "center",
+                        backgroundColor: "white",
+                        color: "grey",
+                      }}
+                    >
+                      {isToday
+                        ? "Today"
+                        : isYesterday
+                        ? "Yesterday"
+                        : moment(msg?.createdAt).format("L")}
+                    </div>
+                  ) : null}
+                  <Message
+                    key={msg?._id}
+                    msg={msg}
+                    currentUser={msg?.senderId === currentUser?._id}
+                    // ref={scrollRef}
+                  />
+                </div>
+              );
+            })}
             {/* </div> */}
           </div>
           <div className="cc-bottom">
