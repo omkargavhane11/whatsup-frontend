@@ -16,6 +16,8 @@ const Chat = ({
 
   console.log("chat user :: ", ChatUser);
 
+  let messageDate = item?.lastMessage?.createdAt;
+
   return (
     <div
       className="chat"
@@ -39,7 +41,9 @@ const Chat = ({
               {/* <span style={{ fontSize: "12px" }}>{ChatUser?.contact}</span> */}
             </div>
             <p className="chat-lastest-msg-time">
-              {moment(item?.lastMessage?.createdAt).format("lll")}
+              {messageDate < new Date(messageDate).setHours(0, 0, 0, 0)
+                ? moment(messageDate).format("L")
+                : moment(messageDate).format("LT")}
             </p>
           </div>
           <div className="chat-latest-msg"></div>
