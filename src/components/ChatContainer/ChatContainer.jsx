@@ -152,14 +152,14 @@ const ChatContainer = ({
             </div>
             <div className="cc-top-left">
               <img
+                alt="user"
                 // src="https://sites.google.com/site/doraemon1161104319/_/rsrc/1518075394469/characters-2/nobi-nobita/Sitting-Image-Of-Nobita.png?height=200&width=188"
                 src="https://p.kindpng.com/picc/s/21-211168_transparent-person-icon-png-png-download.png"
-                alt="user-image"
                 className="cc-avatar"
               />
             </div>
             <div className="cc-top-right">
-              <div className="cc-contact-name">{ChatUser?.contact}</div>
+              <div className="cc-contact-name">{ChatUser?.name} </div>
               {/* <div className="cc-contact-last-seen">
                 last seen today 12:32 pm
               </div> */}
