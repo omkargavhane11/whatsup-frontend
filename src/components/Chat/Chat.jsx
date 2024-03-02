@@ -29,8 +29,8 @@ const Chat = ({
       <div className="chat-wrapper">
         <div className="chat-left">
           <img
-            src="https://p.kindpng.com/picc/s/21-211168_transparent-person-icon-png-png-download.png"
-            alt="user-image"
+            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+            alt="user"
             className="chat-avatar"
           />
         </div>

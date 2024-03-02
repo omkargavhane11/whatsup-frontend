@@ -17,28 +17,11 @@ const ChatContainer = ({
 }) => {
   const [messages, setMessages] = useState([]);
 
-  // fetch chats of user
-  useEffect(() => {
-    async function getMsgs() {
-      try {
-        const getMessages = await axios.get(
-          `${API}/message/get-chat-message/${currentChat._id}`
-        );
-        setMessages(getMessages.data);
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
-    if (currentChat) {
-      getMsgs();
-    }
-  }, [currentChat?._id]);
-
   //
   const API =
     window.location.host === "localhost:3000"
       ? "http://localhost:8080"
-      : "https://whatsup-api-77.herokuapp.com";
+      : "https://whatsup-api-production.up.railway.app";
   const SOCKET_API =
     window.location.host === "localhost:3000"
       ? "ws://localhost:8900"
@@ -114,6 +97,10 @@ const ChatContainer = ({
       console.log(users);
       setSocketUsers(users);
     });
+
+    return () => {
+      socket.current?.disconnect();
+    };
   }, [currentChat]);
 
   useEffect(() => {
@@ -128,6 +115,10 @@ const ChatContainer = ({
       });
       console.log(data);
     });
+
+    return () => {
+      socket.current?.disconnect();
+    };
   }, []);
 
   useEffect(() => {
@@ -135,7 +126,32 @@ const ChatContainer = ({
       currentChat._id === socketMessage.chatId &&
         setMessages([...messages, socketMessage]);
     }
+
+    return () => {
+      socket.current?.disconnect();
+    };
   }, [socketMessage, currentChat]);
+
+  // fetch chats of user
+  useEffect(() => {
+    async function getMsgs() {
+      try {
+        const getMessages = await axios.get(
+          `${API}/message/get-chat-message/${currentChat._id}`
+        );
+        setMessages(getMessages.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    if (currentChat) {
+      getMsgs();
+    }
+
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, [currentChat?._id]);
 
   return (
     <>

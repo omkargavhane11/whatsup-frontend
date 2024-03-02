@@ -9,7 +9,7 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
   const API =
     window.location.host === "localhost:3000"
       ? "http://localhost:8080"
-      : "https://whatsup-api-77.herokuapp.com";
+      : "https://whatsup-api-production.up.railway.app";
   const SOCKET_API =
     window.location.host === "localhost:3000"
       ? "http://localhost:8900"
