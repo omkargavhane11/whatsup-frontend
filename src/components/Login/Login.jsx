@@ -13,7 +13,7 @@ const Login = () => {
   const SOCKET_API =
     window.location.host === "localhost:3000"
       ? "http://localhost:8900"
-      : "https://whatsup-socket.herokuapp.com";
+      : "https://whatsup-socket-production.up.railway.app";
 
   const navigate = useNavigate();
   const toast = useToast();

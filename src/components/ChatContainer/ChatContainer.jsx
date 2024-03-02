@@ -25,7 +25,7 @@ const ChatContainer = ({
   const SOCKET_API =
     window.location.host === "localhost:3000"
       ? "ws://localhost:8900"
-      : "https://whatsup-socket.herokuapp.com";
+      : "https://whatsup-socket-production.up.railway.app";
 
   // logged in user data
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
