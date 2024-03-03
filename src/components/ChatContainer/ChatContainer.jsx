@@ -91,19 +91,6 @@ const ChatContainer = ({
   const [socketUsers, setSocketUsers] = useState(null);
 
   useEffect(() => {
-    socket.current?.emit("addUser", currentUser?._id);
-
-    socket.current?.on("getUsers", (users) => {
-      console.log(users);
-      setSocketUsers(users);
-    });
-
-    return () => {
-      socket.current?.disconnect();
-    };
-  }, [currentChat]);
-
-  useEffect(() => {
     socket.current = io(SOCKET_API);
 
     socket.current?.on("getMessage", (data) => {
@@ -120,6 +107,21 @@ const ChatContainer = ({
       socket.current?.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    socket.current?.emit("addUser", currentUser?._id);
+
+    socket.current?.on("getUsers", (users) => {
+      console.log(users);
+      setSocketUsers(users);
+    });
+
+    return () => {
+      socket.current?.disconnect();
+    };
+  }, [currentChat]);
+
+
 
   useEffect(() => {
     if (socketMessage) {
