@@ -1,7 +1,9 @@
 .chat {
   box-sizing: border-box;
   cursor: pointer;
-  border-bottom: 1px solid lightgray;
+  border: 1px solid lightgray;
+  width: 100%;
+  
 }
 
 .chat:hover {
@@ -35,7 +37,7 @@
 .chat-latest-msg {
   height: 25px;
   font-weight: 300;
-  width: 380px;
+  width: 100%;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -47,7 +49,7 @@
 }
 
 .chat-right {
-  width: 100%;
+  width: 80%;
 }
 
 /*  */
@@ -101,6 +103,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 100%;
   }
 
   .chat-latest-msg {

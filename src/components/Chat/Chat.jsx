@@ -1,5 +1,6 @@
 import "./chat.css";
 import moment from "moment";
+import PERSON_IMAGE from "../../assets/person_image.jpg";
 
 const Chat = ({
   item,
@@ -14,8 +15,6 @@ const Chat = ({
     (member) => member?._id !== currentUser?._id
   );
 
-  console.log("chat user :: ", ChatUser);
-
   let messageDate = item?.lastMessage?.createdAt;
 
   return (
@@ -29,7 +28,8 @@ const Chat = ({
       <div className="chat-wrapper">
         <div className="chat-left">
           <img
-            src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png"
+            style={{ width: "40px", height: "40px" }}
+            src={PERSON_IMAGE}
             alt="user"
             className="chat-avatar"
           />
@@ -46,7 +46,7 @@ const Chat = ({
                 : moment(messageDate).format("LT")}
             </p>
           </div>
-          <div className="chat-latest-msg"></div>
+          <div className="chat-latest-msg">{item?.lastMessage?.senderId === currentUser?._id ? "✔ " : ""}{item?.lastMessage?.message}</div>
         </div>
       </div>
     </div>

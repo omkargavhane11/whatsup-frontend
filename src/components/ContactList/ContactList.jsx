@@ -1,9 +1,10 @@
 import "./contactList.css";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import CircularProgress from "@mui/material/CircularProgress";
+import socket from "../../config/socket.config";
 
 const ContactList = ({ contact, setContact, contactList, setContactList }) => {
   const API =
@@ -13,7 +14,8 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
   const SOCKET_API =
     window.location.host === "localhost:3000"
       ? "http://localhost:8900"
-      : "https://whatsup-socket-production.up.railway.app";
+      : // : "https://whatsup-socket-production.up.railway.app";
+        "https://whatsup-api-production.up.railway.app";
 
   const [loading, setLoading] = useState(false);
 
@@ -96,6 +98,29 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    socket?.on("getMessage", (data) => {
+      let temp = contactList?.map((u) => {
+        if (u?._id === data.chatId) {
+          return {
+            ...u,
+            lastMessage: {
+              ...u?.lastMessage,
+              ...data,
+              createdAt: Date.now(),
+            },
+          };
+        } else {
+          return u;
+        }
+      });
+
+      setContactList([...temp]);
+      console.log("updated list :: ", [...temp]);
+      console.log(data);
+    });
+  }, []);
 
   return (
     <div className="cl">

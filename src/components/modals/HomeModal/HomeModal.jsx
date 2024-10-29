@@ -1,9 +1,9 @@
 import "./homeModal.css";
 
-const HomeModal = () => {
+const HomeModal = ({ handleLogout }) => {
   return (
     <div className="home-modal">
-      <button>logout</button>
+      <button onClick={handleLogout}>logout</button>
     </div>
   );
 };

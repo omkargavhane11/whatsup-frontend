@@ -6,6 +6,9 @@ import axios from "axios";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { io } from "socket.io-client";
 import moment from "moment";
+import PERSON_IMAGE from "../../assets/person_image.jpg";
+import socket from "../../config/socket.config";
+import { v4 as uuidv4 } from "uuid";
 
 const ChatContainer = ({
   currentChat,
@@ -24,14 +27,15 @@ const ChatContainer = ({
       : "https://whatsup-api-production.up.railway.app";
   const SOCKET_API =
     window.location.host === "localhost:3000"
-      ? "ws://localhost:8900"
-      : "https://whatsup-socket-production.up.railway.app";
+      ? "ws://localhost:8080"
+      : // : "https://whatsup-socket-production.up.railway.app";
+        "https://whatsup-api-production.up.railway.app";
 
   // logged in user data
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
 
   //
-  const ChatUser = currentChat?.members.find(
+  const ChatUser = currentChat?.members?.find(
     (member) => member._id !== currentUser?._id
   );
 
@@ -40,11 +44,18 @@ const ChatContainer = ({
   const sendMessage = async (e) => {
     e.preventDefault();
     // socket
-    const recieverId = ChatUser._id;
+    const receiverId = ChatUser?._id;
 
-    socket.current?.emit("sendMessage", {
+    socket?.emit("sendMessage", {
       senderId: currentUser?._id,
-      recieverId,
+      receiverId,
+      message: inputMessage,
+      chatId: currentChat._id,
+    });
+
+    console.log("message sent as :: ", {
+      senderId: currentUser?._id,
+      receiverId,
       message: inputMessage,
       chatId: currentChat._id,
     });
@@ -67,7 +78,7 @@ const ChatContainer = ({
           `${API}/message/new-message`,
           payload
         );
-        console.log(sendMessage.data.msg);
+        // console.log(sendMessage.data.msg);
       } catch (error) {
         console.log(error.message);
       }
@@ -86,53 +97,56 @@ const ChatContainer = ({
   //✅ socket
 
   // const [socket, setSocket] = useState(null);
-  const socket = useRef();
-  const [socketMessage, setSocketMessage] = useState(null);
-  const [socketUsers, setSocketUsers] = useState(null);
+  // const socket = useRef();
+  const [socketMessage, setSocketMessage] = useState({});
+  const [socketUsers, setSocketUsers] = useState([]);
 
   useEffect(() => {
-    socket.current = io(SOCKET_API);
+    // socket = io(SOCKET_API);
 
-    socket.current?.on("getMessage", (data) => {
-      setSocketMessage({
+    socket?.emit("addUser", currentUser?._id);
+
+    socket?.on("getMessage", (data) => {
+      let socketMessage = {
         senderId: data.senderId,
         message: data.message,
         createdAt: Date.now(),
         chatId: data.chatId,
-      });
-      console.log(data);
+        _id: uuidv4(),
+      };
+      setSocketMessage(socketMessage);
+
+      console.log("getMessage :: ", data);
+      currentChat._id === socketMessage.chatId &&
+        setMessages([...messages, socketMessage]);
     });
 
     return () => {
-      socket.current?.disconnect();
+      socket?.disconnect();
     };
   }, []);
 
   useEffect(() => {
-    socket.current?.emit("addUser", currentUser?._id);
-
-    socket.current?.on("getUsers", (users) => {
+    socket?.on("getUsers", (users) => {
       console.log(users);
       setSocketUsers(users);
     });
 
-    return () => {
-      socket.current?.disconnect();
-    };
+    // return () => {
+    //   socket?.disconnect();
+    // };
   }, [currentChat]);
 
+  // useEffect(() => {
+  //   if (socketMessage) {
+  //     currentChat._id === socketMessage.chatId &&
+  //       setMessages([...messages, socketMessage]);
+  //   }
 
-
-  useEffect(() => {
-    if (socketMessage) {
-      currentChat._id === socketMessage.chatId &&
-        setMessages([...messages, socketMessage]);
-    }
-
-    return () => {
-      socket.current?.disconnect();
-    };
-  }, [socketMessage, currentChat]);
+  //   // return () => {
+  //   //   socket?.disconnect();
+  //   // };
+  // }, [socketMessage, currentChat]);
 
   // fetch chats of user
   useEffect(() => {
@@ -150,9 +164,9 @@ const ChatContainer = ({
       getMsgs();
     }
 
-    return () => {
-      socket.current?.disconnect();
-    };
+    // return () => {
+    //   socket?.disconnect();
+    // };
   }, [currentChat?._id]);
 
   return (
@@ -170,22 +184,18 @@ const ChatContainer = ({
               <ArrowBackIcon />
             </div>
             <div className="cc-top-left">
-              <img
-                alt="user"
-                // src="https://sites.google.com/site/doraemon1161104319/_/rsrc/1518075394469/characters-2/nobi-nobita/Sitting-Image-Of-Nobita.png?height=200&width=188"
-                src="https://p.kindpng.com/picc/s/21-211168_transparent-person-icon-png-png-download.png"
-                className="cc-avatar"
-              />
+              <img alt="user" src={PERSON_IMAGE} className="cc-avatar" />
             </div>
             <div className="cc-top-right">
               <div className="cc-contact-name">{ChatUser?.name} </div>
-              {/* <div className="cc-contact-last-seen">
-                last seen today 12:32 pm
-              </div> */}
+              <div className="font-14">
+                {socketUsers?.find((u) => u.userId === ChatUser._id)
+                  ? "online"
+                  : moment(Date.now()).format("LL")}
+              </div>
             </div>
           </div>
           <div className="cc-conversation-box">
-            {/* <div className="cc-conversation-box-wrapper"> */}
             {messages?.map((msg, index, array) => {
               let showDateBadge =
                 index === 0
