@@ -5,7 +5,7 @@ import "./login.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box, useToast } from "@chakra-ui/react";
 
-const Login = () => {
+const ForgotPassword = () => {
   const API =
     window.location.host === "localhost:3000"
       ? "http://localhost:8080"
@@ -25,7 +25,7 @@ const Login = () => {
 
   const [login, setLogin] = useState(true);
   const [otpSent, setOtpSent] = useState(false);
-
+  const [otp, setOtp] = useState(null);
   const [registered, setRegistered] = useState(false);
 
   const [number, setNumber] = useState(null);
@@ -58,7 +58,8 @@ const Login = () => {
     }
   }
 
-  const handleLogin = async (e) => {
+  const handleSave = async (e) => {
+    return;
     e.preventDefault();
 
     try {
@@ -70,7 +71,7 @@ const Login = () => {
       if (number !== "" && password !== "") {
         setLoading(true);
 
-        const login = await axios.post(`${API}/user/login`, payload);
+        const login = await axios.post(`${API}/user/forgot-password`, payload);
 
         if (login.data.msg === "success") {
           navigate("/user/chats");
@@ -109,10 +110,6 @@ const Login = () => {
     setNumber("");
   }
 
-  const handleForgotPassword = () => {
-    navigate("/forgot-password")
-  }
-
   useEffect(() => {
     if (currentUser) {
       navigate("/user");
@@ -122,7 +119,7 @@ const Login = () => {
   return (
     <>
 
-      <form className="login" onSubmit={handleLogin}>
+      <form className="login" onSubmit={handleSave}>
         <div className="login-wrapper">
           <h2 className="login-heading">Login</h2>
           <div className="login-input-container">
@@ -135,7 +132,19 @@ const Login = () => {
                 className="login-input"
               />
             </div>
-            <div>Password</div>
+            <div>
+              <div>OTP</div>
+              <input
+                onChange={(e) => setOtp(Number(e.target.value))}
+                type="number"
+                placeholder="ex- 5486"
+                className="login-input"
+                minLength="4"
+                maxLength="4"
+                value={otp}
+              />
+            </div>
+            <div>New Password</div>
             <div>
               <input
                 value={password}
@@ -146,9 +155,6 @@ const Login = () => {
                 className="login-input"
               />
             </div>
-            <span className="login-signup-link" onClick={handleForgotPassword}>
-              Forgot Password ?
-            </span>
             <button
               disabled={loading}
               type="submit"
@@ -157,14 +163,14 @@ const Login = () => {
               {loading ? (
                 <CircularProgress color="inherit" className="login-loader" />
               ) : (
-                "Login"
+                "Save"
               )}
             </button>
           </div>
-          <div className="login-bottom-link" onClick={() => navigate("/register")}>
-            New User ?{" "}
+          <div className="login-bottom-link" onClick={() => navigate("/")}>
+
             <span className="login-signup-link">
-              Sign up
+              Login
             </span>
           </div>
         </div>
@@ -174,4 +180,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
