@@ -1,8 +1,8 @@
 import "./app.css";
 // components
-import Chat from "../Chat/Chat";
-import ContactList from "../ContactList/ContactList";
-import ChatContainer from "../ChatContainer/ChatContainer";
+import Chat from "../Chat/Chat.jsx";
+import ContactList from "../ContactList/ContactList.jsx";
+import ChatContainer from "../ChatContainer/ChatContainer.jsx";
 // icons
 import SearchIcon from "@mui/icons-material/Search";
 //
@@ -21,7 +21,6 @@ export const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const chatId = params.chatId ?? null;
-  console.log("chatId :: ", chatId);
   const [tab, setTab] = useState(1);
   const chatBoxOpen = params.chatId ? true : false;
 
@@ -30,9 +29,7 @@ export const App = () => {
 
   const [contact, setContact] = useState(false);
   const [chatList, setChatList] = useState([]);
-  const [filteredChatList, setFilteredChatList] = useState([]);
   const [contactList, setContactList] = useState([]);
-  const [filteredContactList, setFilteredContactList] = useState([]);
   const [currentChat, setCurrentChat] = useState({});
   const [searchResults, setSearchResults] = useState([]);
   const [searchValue, setSearchValue] = useState("")
@@ -47,7 +44,6 @@ export const App = () => {
       const res = await axios.get(`${API}/chat/get-chat/${currentUser?._id}`);
       if (!res.error) {
         setChatList(res.data.chats);
-        setFilteredChatList(res.data.chats);
       }
     } catch (error) {
     }
@@ -59,7 +55,6 @@ export const App = () => {
 
       if (!response.data.error) {
         setContactList(response.data.data.contacts);
-        setFilteredContactList(response.data.data.contacts);
       }
     } catch (error) {
 
@@ -102,8 +97,6 @@ export const App = () => {
           }
           return c;
         })
-
-        setFilteredChatList(temp);
         return temp;
       })
     });
@@ -114,12 +107,10 @@ export const App = () => {
       setChatList((prev) => {
         console.log("prevChats :: ", prev)
         let temp = prev.map((item) => {
-          if (item?._id == data.chatId) {
+          if (item._id == data.chatId) {
             return { ...item, lastMessage: { ...item.lastMessage, isRead: false } }
           }
         })
-
-        setFilteredChatList(temp);
         return temp;
       })
     })
@@ -131,12 +122,11 @@ export const App = () => {
         setChatList((prev) => {
           let temp = prev.map((item) => {
             console.log("item :: ", item)
-            if (item?._id === data.chatId) {
+            if (item._id === data.chatId) {
               return { ...item, unreadMsgCount: data.unreadMsgCount }
             }
             return item;
           })
-          setFilteredChatList(temp);
           return temp;
         })
       }
@@ -150,7 +140,7 @@ export const App = () => {
       socket.off("consume-show-not-read-count")
 
       if (currentUser?._id) {
-        socket.emit("leave", currentUser?._id, currentUser.name);
+        socket.emit("leave", currentUser._id, currentUser.name);
       }
 
       // Disconnect the socket
@@ -169,55 +159,21 @@ export const App = () => {
     e.stopPropagation();
     // contact --> {name, contact}
     try {
-      let payload = { newContact: contact?._id, type: "add_to_contact" };
+      let payload = { newContact: contact._id, type: "add_to_contact" };
       let response = await axios.put(`${API}/user/${currentUser?._id}`, payload);
       console.log("response :: ", response)
       if (!response.data.error) {
         setContactList((prev) => {
-          let temp = [...response.data.contacts, ...prev].sort((a, b) => {
+          return [...response.data.contacts, ...prev].sort((a, b) => {
             if (a.name < b.name) return -1; // a comes before b
             if (a.name > b.name) return 1;  // a comes after b
             return 0;                       // a and b are equal
           })
-
-          setFilteredContactList(temp);
-          return temp;
         })
 
         setSearchValue("");
         setSearchResults([])
       }
-    } catch (error) {
-
-    }
-  }
-
-  const handleContactSearch = (e) => {
-    try {
-      setSearchValue(e.target.value);
-
-      if (e.target.value.toString().length < 10) {
-        setSearchResults([]);
-      }
-
-      if (e.target.value === "") {
-        setFilteredContactList(contactList);
-        return;
-      }
-
-      setFilteredContactList((prev) => {
-        let temp = contactList.filter((item) => {
-          return item.contact.toString().includes(e.target.value.toLowerCase()) || item.name.toLowerCase().includes(e.target.value.toLowerCase());
-        })
-
-        if (/^\d+$/.test(e.target.value) && e.target.value?.length === 10 && temp?.length === 0) {
-          getPersonByNumber(e.target.value);
-        }
-
-        return temp;
-      })
-
-
     } catch (error) {
 
     }
@@ -236,18 +192,21 @@ export const App = () => {
           </div> */}
           <div className="app-left-topbar">
 
-            <div className={`tab chat_tab ${location.pathname.includes("/user/chats") ? "tab-selected" : null}`} onClick={() => {
+            <div className="tab chat_tab" onClick={() => {
+              console.log("chats")
               navigate("/user/chats")
             }}>
               Chats
             </div>
-            <div className={`tab contacts_tab ${location.pathname.includes("/user/contacts") ? "tab-selected" : null}`} onClick={() => {
-              navigate("/user/contacts")
+            <div className="tab contacts_tab" onClick={() => {
+              console.log("conatcts")
+              navigate("/user/chats")
             }}>
               Contacts
             </div>
-            <div className={`tab profile_tab ${location.pathname.includes("/user/profile") ? "tab-selected" : null}`} onClick={() => {
-              navigate("/user/profile")
+            <div className="tab profile_tab" onClick={() => {
+              console.log("prpfieol")
+              navigate("/user/chats")
             }}>
               Profile
             </div>
@@ -282,7 +241,7 @@ export const App = () => {
                   </div>
                   {searchResults?.length > 0 && searchResults?.map((item) => (
                     <Chat
-                      key={item?._id}
+                      key={item._id}
                       item={item}
                       setCurrentChat={setCurrentChat}
                       chatBoxOpen={chatBoxOpen}
@@ -295,11 +254,11 @@ export const App = () => {
                 </div>
                 <div className="app-left-chatbox-wrapper">
 
-                  {filteredChatList?.length > 0 && filteredChatList?.map((item) => {
+                  {chatList?.length > 0 && chatList?.map((item) => {
 
                     return (
                       <Chat
-                        key={item?._id}
+                        key={item._id}
                         item={item}
                         setCurrentChat={setCurrentChat}
                         search={false}
@@ -308,8 +267,8 @@ export const App = () => {
                     )
                   })}
 
-                  {filteredChatList?.length === 0 && (
-                    <h3 className="my-10" style={{ color: "grey", display: "flex", alignItems: 'center', justifyContent: "center" }}>No Chats !</h3>
+                  {chatList?.length === 0 && (
+                    <h3 className="app-emp">No Chats !</h3>
                   )}
 
                 </div>
@@ -323,16 +282,20 @@ export const App = () => {
                   {/* search input */}
                   <input
                     type="text"
-                    placeholder="Search new contact"
+                    placeholder="Search contact"
                     className="app-searchbox-input"
                     value={searchValue}
-                    onChange={handleContactSearch}
+                    onChange={(e) => {
+                      setSearchValue(e.target.value);
+                      if (e.target.value?.length === 10) {
+                        getPersonByNumber(e.target.value);
+                      }
+                    }}
                   />
 
                   {/* close icon */}
                   {searchValue?.length !== 0 && <Close onClick={() => {
                     setSearchValue("");
-                    setFilteredContactList(contactList)
                     setSearchResults([]);
                   }} />}
 
@@ -343,11 +306,11 @@ export const App = () => {
               </div>
               {/* list of found contact + already existing contacts filtered out */}
               {searchResults?.length > 0 && (
-                <div className="" style={{ paddingLeft: "12px", paddingRight: "12px" }}>
+                <div>
                   <div className="my-10">Search Results</div>
                   {searchResults?.map((item) => (
                     <Chat
-                      key={item?._id}
+                      key={item._id}
                       item={item}
                       setCurrentChat={setCurrentChat}
                       chatBoxOpen={chatBoxOpen}
@@ -359,27 +322,26 @@ export const App = () => {
                   ))}
                 </div>
               )}
+              <div className="my-10">Your Contacts</div>
               {contactList?.length > 0 ?
-                <>
-                  <div className="my-10" style={{ paddingLeft: "12px" }}>Your Contacts</div>
-                  <div className="">
-                    {filteredContactList?.map((item) => {
-                      console.log("contactList :: ", contactList)
-                      return (
-                        <Chat
-                          key={item?._id}
-                          item={item}
-                          setCurrentChat={setCurrentChat}
-                          chatBoxOpen={chatBoxOpen}
-                          chats={chatList}
-                          search={false}
-                          chatItem={false}
-                          setTab={setTab}
-                          handleAddContact={() => { }}
-                        />
-                      )
-                    })}
-                  </div> </> : <div className="my-10" style={{ color: "grey", display: "flex", alignItems: 'center', justifyContent: "center" }}>You have no saved contacts  <br />Search and add new contacts</div>
+                <div className="">
+                  {contactList?.map((item) => {
+                    console.log("contactList :: ", contactList)
+                    return (
+                      <Chat
+                        key={item._id}
+                        item={item}
+                        setCurrentChat={setCurrentChat}
+                        chatBoxOpen={chatBoxOpen}
+                        chats={chatList}
+                        search={false}
+                        chatItem={false}
+                        setTab={setTab}
+                        handleAddContact={() => { }}
+                      />
+                    )
+                  })}
+                </div> : <div className="">You have no saved contacts</div>
               }
             </>
           ) : location.pathname.includes("/user/profile") ?
@@ -419,7 +381,6 @@ export const App = () => {
             chatBoxOpen={chatBoxOpen}
             chatList={chatList}
             setChatList={setChatList}
-            setFilteredChatList={setFilteredChatList}
           /> :
             <p className="cc-emp">Select chat to have conversation</p>
           }

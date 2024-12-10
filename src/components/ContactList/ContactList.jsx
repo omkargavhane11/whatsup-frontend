@@ -6,7 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import CircularProgress from "@mui/material/CircularProgress";
 import socket from "../../config/socket.config";
 
-const ContactList = ({ contact, setContact, contactList, setContactList }) => {
+const ContactList = ({ contactList, setContactList }) => {
   const API =
     window.location.host === "localhost:3000"
       ? "http://localhost:8080"
@@ -15,7 +15,7 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
     window.location.host === "localhost:3000"
       ? "http://localhost:8900"
       : // : "https://whatsup-socket-production.up.railway.app";
-        "https://whatsup-api-production.up.railway.app";
+      "https://whatsup-api-production.up.railway.app";
 
   const [loading, setLoading] = useState(false);
 
@@ -99,34 +99,34 @@ const ContactList = ({ contact, setContact, contactList, setContactList }) => {
     }
   };
 
-  useEffect(() => {
-    socket?.on("getMessage", (data) => {
-      let temp = contactList?.map((u) => {
-        if (u?._id === data.chatId) {
-          return {
-            ...u,
-            lastMessage: {
-              ...u?.lastMessage,
-              ...data,
-              createdAt: Date.now(),
-            },
-          };
-        } else {
-          return u;
-        }
-      });
+  // useEffect(() => {
+  //   socket?.on("getMessage", (data) => {
+  //     let temp = contactList?.map((u) => {
+  //       if (u?._id === data.chatId) {
+  //         return {
+  //           ...u,
+  //           lastMessage: {
+  //             ...u?.lastMessage,
+  //             ...data,
+  //             createdAt: Date.now(),
+  //           },
+  //         };
+  //       } else {
+  //         return u;
+  //       }
+  //     });
 
-      setContactList([...temp]);
-      console.log("updated list :: ", [...temp]);
-      console.log(data);
-    });
-  }, []);
+  //     setContactList([...temp]);
+  //     console.log("updated list :: ", [...temp]);
+  //     console.log(data);
+  //   });
+  // }, []);
 
   return (
     <div className="cl">
       <div className="cl-wrapper">
         <div className="cl-top">
-          <ArrowBackIcon onClick={() => setContact(false)} />
+          {/* <ArrowBackIcon onClick={() => setContact(false)} /> */}
           <h3 className="cl-top-heading">New Contact</h3>
         </div>
         <div className="cl-middle">

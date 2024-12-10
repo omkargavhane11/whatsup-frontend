@@ -26,6 +26,9 @@
 }
 
 .msg-time {
+  display: flex;
+  align-items: center;
+  gap:5px;
   text-align: right;
   color: rgb(147, 146, 146);
   z-index: 10;

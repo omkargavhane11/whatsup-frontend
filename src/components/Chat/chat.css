@@ -1,9 +1,10 @@
 .chat {
   box-sizing: border-box;
   cursor: pointer;
-  border: 1px solid lightgray;
+  border: 0px solid lightgray;
   width: 100%;
-  
+  padding: 2px;
+
 }
 
 .chat:hover {
@@ -12,12 +13,13 @@
 
 .chat-wrapper {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   padding: 4px;
-  border-top: 1px solid rgb(215, 215, 215);
+  /* border-top: 1px solid rgb(215, 215, 215); */
   padding: 5px 10px;
   box-sizing: border-box;
+  border-radius: 3px;
 }
 
 .chat-avatar {
@@ -41,6 +43,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .chat-lastest-msg-time {
@@ -48,8 +53,35 @@
   color: #999;
 }
 
+.chat-lastest-msg-time-green {
+  font-size: 14px;
+  color: #25d366;
+}
+
 .chat-right {
   width: 80%;
+}
+
+.chat-unreadMessageCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 5px;
+  height: 70%;
+  max-height: 70%;
+  aspect-ratio: 1/1;
+  background-color: #25d366;
+  color: white;
+  font-size: 16px;
+}
+
+.chat-add_button{
+  background-color: rgb(3, 95, 58);
+  border-radius: 5px;
+  padding: 3px;
+  align-self: center;
+  color: white;
 }
 
 /*  */
@@ -113,11 +145,19 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 5px;
   }
 
   .chat-lastest-msg-time {
     font-size: 14px;
     color: #999;
+  }
+
+  .chat-lastest-msg-time-green {
+    font-size: 14px;
+    color: #25d366;
   }
 
   .chat-left {
