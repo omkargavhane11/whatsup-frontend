@@ -5,17 +5,9 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import CircularProgress from "@mui/material/CircularProgress";
 import socket from "../../config/socket.config";
+import { API } from "../../constant";
 
 const ContactList = ({ contactList, setContactList }) => {
-  const API =
-    window.location.host === "localhost:3000"
-      ? "http://localhost:8080"
-      : "https://whatsup-api-production.up.railway.app";
-  const SOCKET_API =
-    window.location.host === "localhost:3000"
-      ? "http://localhost:8900"
-      : // : "https://whatsup-socket-production.up.railway.app";
-      "https://whatsup-api-production.up.railway.app";
 
   const [loading, setLoading] = useState(false);
 

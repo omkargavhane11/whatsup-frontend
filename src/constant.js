@@ -5,5 +5,5 @@ export const API =
 
 export const SOCKET_API =
     window.location.host === "localhost:3000"
-        ? "http://localhost:8080"
-        : "https://whatsup-api-production.up.railway.app";
+        ? "ws://localhost:8080"
+        : "ws://whatsup-api-production.up.railway.app";

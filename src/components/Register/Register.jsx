@@ -4,17 +4,9 @@ import { useNavigate } from "react-router-dom";
 import "./login.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box, useToast } from "@chakra-ui/react";
+import { API } from "../../constant";
 
 const Register = () => {
-    const API =
-        window.location.host === "localhost:3000"
-            ? "http://localhost:8080"
-            : "https://whatsup-api-production.up.railway.app";
-    const SOCKET_API =
-        window.location.host === "localhost:3000"
-            ? "http://localhost:8900"
-            : // : "https://whatsup-socket-production.up.railway.app";
-            "https://whatsup-api-production.up.railway.app";
 
     const navigate = useNavigate();
     const toast = useToast();
