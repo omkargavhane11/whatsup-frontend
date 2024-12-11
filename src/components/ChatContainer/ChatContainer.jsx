@@ -188,7 +188,7 @@ const ChatContainerChild = ({ currentChat, setChatList, setFilteredChatList }) =
   }, [currentChat?._id]);
 
   useEffect(() => {
-    if (!socket.connected) {
+    if (!socket.connected && currentUser?._id) {
       socket.connect();
     }
 

@@ -27,16 +27,17 @@ const ForgotPassword = () => {
 
   const getOTP = async () => {
     try {
-
-      const login = await axios.get(`${API}/user/sendOTP/${number}`);
-      if (login.data.success) {
+      let payload = { password, otp };
+      const response = await axios.put(`${API}/user/forgot-password`, payload);
+      if (!response.data.error) {
         toast({
-          description: "OTP sent on " + number,
+          description: response.data.msg,
           status: "success",
           duration: 3000,
           isClosable: true,
           position: "top",
         });
+        navigate("/")
       }
     } catch (error) {
       toast({
@@ -51,27 +52,30 @@ const ForgotPassword = () => {
   }
 
   const handleSave = async (e) => {
-    return;
     e.preventDefault();
 
     try {
-      const payload = {
-        contact: number,
-        password,
-      };
 
-      if (number !== "" && password !== "") {
+      let payload = { password, otp, contact: number };
+
+      if (number !== "" || password !== "" || otp !== "") {
         setLoading(true);
 
-        const login = await axios.post(`${API}/user/forgot-password`, payload);
+        const response = await axios.put(`${API}/user/forgot-password`, payload);
 
-        if (login.data.msg === "success") {
-          navigate("/user/chats");
-          localStorage.setItem("whatsupuser", JSON.stringify(login.data.user));
+        if (!response.data.error) {
           emptyInputs();
+          toast({
+            description: response.data.msg,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "top",
+          });
+          navigate("/")
         } else {
           toast({
-            description: login.data.msg,
+            description: response.data.msg,
             status: "error",
             duration: 3000,
             isClosable: true,
@@ -100,6 +104,7 @@ const ForgotPassword = () => {
     setName("");
     setPassword("");
     setNumber("");
+    setOtp("")
   }
 
   useEffect(() => {
@@ -113,7 +118,7 @@ const ForgotPassword = () => {
 
       <form className="login" onSubmit={handleSave}>
         <div className="login-wrapper">
-          <h2 className="login-heading">Login</h2>
+          <h2 className="login-heading">Reset Password</h2>
           <div className="login-input-container">
             <div>Mobile Number</div>
             <div>

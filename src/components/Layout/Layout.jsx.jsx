@@ -76,7 +76,7 @@ export const App = () => {
       getChats();
     }
 
-    if (!socket.connected) {
+    if (!socket.connected && currentUser?._id) {
       socket.connect();
     }
 

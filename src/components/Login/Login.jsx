@@ -102,8 +102,39 @@ const Login = () => {
     setNumber("");
   }
 
-  const handleForgotPassword = () => {
-    navigate("/forgot-password")
+  const handleForgotPassword = async () => {
+    try {
+      if (!number || number.toString().length !== 10) {
+        toast({
+          description: "Enter valid contact number",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+      }
+      const login = await axios.get(`${API}/user/sendOTP/${number}`);
+      if (!login.data.error) {
+        toast({
+          description: "OTP sent on " + number,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "top",
+        });
+        setOtpSent(true)
+        navigate("/forgot-password");
+      }
+    } catch (error) {
+      toast({
+        description: error.msg,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
+
+    }
   }
 
   useEffect(() => {

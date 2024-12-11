@@ -16,7 +16,9 @@ function Main() {
   // logged-in user
   const currentUser = JSON.parse(localStorage.getItem("whatsupuser"));
   useEffect(() => {
-    socket.connect();
+    if (currentUser?._id) {
+      socket.connect();
+    }
   }, [])
 
   return (
